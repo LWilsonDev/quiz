@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class='title text-center'>Welcome {{ username }}</h1>
+
+<h2>Question {{ question_number }}</h2>
+
+<p>{{ question }}</p>
+<form method=POST>
+    <input type='radio' name='answer' value='a'>{{ answer_a }}
+    <input type='radio' name='answer' value='b'>{{ answer_b }}
+    <input type='radio' name='answer' value='c'>{{ answer_c }}
+    <button class='btn btn-success' type='submit'>Submit</button>
+</form>
+
+{% endblock %}
+
