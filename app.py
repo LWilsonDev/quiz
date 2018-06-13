@@ -9,10 +9,13 @@ app.secret_key = os.urandom(24)
 questions = {
     1: {"question": "What is 2 + 2?", "answer": "4"},
     2: {"question": "What is 3 + 3?", "answer": "6"},
-    3: {"question": "What colour is the sky?", "answer": "Blue"}
+    3: {"question": "What colour is the sky?", "answer": "blue"},
+    4: {"question": "What colour is grass?", "answer": "green"}
     }
-    
-
+  
+def check_answer(answer):
+    if answer == questions[session["current_question"]]["answer"]:
+        session["correct_answer_count"] += 1
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -24,18 +27,18 @@ def index():
 
 @app.route('/<username>', methods=['GET', 'POST'])
 def user(username):
-    session["correct_answer_count"] = 0
-    session["current_question"] = 1
-    
+    if "current_question" not in session:
+        session["current_question"] = 1
+        session["correct_answer_count"] = 0
     
     if request.method == "POST":
-        selected_answer = str(request.form['user_answer'])
-        if selected_answer == questions[session["current_question"]]["answer"]:
-            session["correct_answer_count"] += 1
-            session["current_question"] += 1
+        selected_answer = str(request.form['user_answer']).lower()
+        check_answer(selected_answer)
+        session["current_question"] += 1
         redirect(username)
     
-       
+    if session["current_question"] > len(questions):
+        return render_template("leaderboard.html")   
            
     return render_template('quiz.html',
     username=username, 
