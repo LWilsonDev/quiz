@@ -1,22 +1,17 @@
-import os, random, copy
-from flask import Flask, redirect, render_template, request, session
-from questions import Questions
+import os, random
+from flask import Flask, redirect, render_template, request, session, url_for
 from random import shuffle
 
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-original_question_list = {
-    # format is 'question': [correct_answer, answer2, answer3]
-    "What is 2 + 2?": ['4', '6', 'yellow'],
-    "What colour is grass?": ['green', '6', 'yellow'],
-    "What colour is the sky?": ['Blue', '6', 'yellow']
+questions = {
+    1: {"question": "What is 2 + 2?", "answer": "4"},
+    2: {"question": "What is 3 + 3?", "answer": "6"},
+    3: {"question": "What colour is the sky?", "answer": "Blue"}
     }
-
-questions = copy.deepcopy(original_question_list) 
-#make copy of questions to shuffle, leaving original list untouched
-
+    
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -29,26 +24,25 @@ def index():
 
 @app.route('/<username>', methods=['GET', 'POST'])
 def user(username):
+    session["correct_answer_count"] = 0
+    session["current_question"] = 1
     
-        
-    #if "current_question" not in session:
-    # The first time the page is loaded, the current question is not set.
-    # This means that the user has not started to quiz yet. So set the 
-    # current question to question 1 and save it in the session.
-    if "current_question" not in session:
-    # The first time the page is loaded, the current question is not set.
-    # This means that the user has not started to quiz yet. So set the 
-    # current question to question 1 and save it in the session.
-        
-        session["current_question"] = 2    
+    
+    if request.method == "POST":
+        selected_answer = str(request.form['user_answer'])
+        if selected_answer == questions[session["current_question"]]["answer"]:
+            session["correct_answer_count"] += 1
+            session["current_question"] += 1
+        redirect(username)
+    
+       
+           
     return render_template('quiz.html',
     username=username, 
     question_number=session["current_question"], 
-    question=questions.keys()[session["current_question"]],
-    answers=questions.values()[session["current_question"]],
+    question=questions[session["current_question"]]['question'],
     )
 
-    #current_question_answers=questions.values()[session["current_question"]],
         
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)         
 
