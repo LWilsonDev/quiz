@@ -38,7 +38,13 @@ def user(username):
         redirect(username)
     
     if session["current_question"] > len(questions):
-        return render_template("leaderboard.html")   
+        if session['correct_answer_count'] < len(questions)/2:
+            low_score = True
+        return render_template("leaderboard.html",
+        username=username,
+        low_score=low_score,
+        total_questions=len(questions),
+        user_score=session['correct_answer_count'])   
            
     return render_template('quiz.html',
     username=username, 
