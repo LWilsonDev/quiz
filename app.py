@@ -25,11 +25,11 @@ def index():
      session.pop(key)
     if request.method == 'POST':
         session['username'] = request.form['username']
-        return redirect(request.form['username'])
+        return redirect(url_for('quiz'))
     return render_template('index.html')
 
-@app.route('/<username>', methods=['GET', 'POST'])
-def user(username):
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
     if "current_question" not in session:
         session["current_question"] = 1
         session["correct_answer_count"] = 0
@@ -38,7 +38,7 @@ def user(username):
         selected_answer = str(request.form['user_answer']).lower()
         check_answer(selected_answer)
         session["current_question"] += 1
-        redirect(username)
+        redirect(url_for('quiz'))
     
     if session["current_question"] > len(questions): 
         #finished quiz
@@ -46,14 +46,21 @@ def user(username):
         
            
     return render_template('quiz.html',
-    username=username, 
+    username=session['username'], 
     question_number=session["current_question"], 
     question=questions[session["current_question"]]['question'],
     )
     
 @app.route('/result', methods=['GET', 'POST']) 
 def result():
-    if request.method == "GET":
+    if request.method == "POST":
+        if request.form['result_btn'] == 'again':
+            session['current_question'] = 1
+            session['correct_answer_count'] = 0
+            return redirect(url_for('quiz'))
+        elif request.form['result_btn'] == 'exit':
+            return redirect(url_for('index'))
+    else:    
         if session['correct_answer_count'] < len(questions)/2:
             low_score = True
         else:

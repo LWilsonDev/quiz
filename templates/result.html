@@ -9,7 +9,7 @@
 <h2>You scored {{ user_score }} out of {{ total_questions }}</h2>
 
 <form method='POST'>
-    <button class="btn btn-success" name="again">Try Again?</button>
-    <button class="btn btn-danger" name="log_out">Log Out</button>
+    <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again?</button>
+    <button type='submit' class="btn btn-danger" name="result_btn" value='exit'>Exit</button>
 </form>
 {% endblock %}
