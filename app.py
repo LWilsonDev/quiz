@@ -9,19 +9,22 @@ app.secret_key = os.urandom(24)
 questions = {
     1: {"question": "What is 2 + 2?", "answer": "4"},
     2: {"question": "What is 3 + 3?", "answer": "6"},
-    3: {"question": "What colour is the sky?", "answer": "blue"},
-    4: {"question": "What colour is grass?", "answer": "green"}
+    3: {"question": "What colour is grass?", "answer": "green"}
     }
   
 def check_answer(answer):
     if answer == questions[session["current_question"]]["answer"]:
         session["correct_answer_count"] += 1
+        
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    #remove session in case same user is returning
+    for key in session.keys():
+     session.pop(key)
     if request.method == 'POST':
-        with open('data/users.txt', 'a') as file:
-            file.writelines(request.form['username'] + '\n')
+        session['username'] = request.form['username']
         return redirect(request.form['username'])
     return render_template('index.html')
 
@@ -37,10 +40,13 @@ def user(username):
         session["current_question"] += 1
         redirect(username)
     
-    if session["current_question"] > len(questions):
+    if session["current_question"] > len(questions): 
+        #finished quiz
         if session['correct_answer_count'] < len(questions)/2:
             low_score = True
-        return render_template("leaderboard.html",
+        else:
+            low_score = False
+        return render_template("result.html",
         username=username,
         low_score=low_score,
         total_questions=len(questions),
