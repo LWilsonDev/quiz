@@ -4,10 +4,22 @@
 <h2>Question: {{ question_number }}</h2>
 
 <p>{{ question }}</p>
-<form method=POST>
+<form method='POST'>
     
      <input type='text' name='user_answer'>
-    <button class='btn btn-success' type='submit'>Submit</button>
+    <button class='btn btn-success' type='submit' name="submit_btn" value='submit'>Submit</button>
+    
+
+
+
+{% with messages = get_flashed_messages() %}
+     {% if messages %}
+          {% for message in messages %}
+               <h3>{{ message }}</h3>
+               <button class='btn btn-primary' type='submit' name="submit_btn" value='next'>Next</button>
+          {% endfor %}
+     {% endif%}
+{% endwith%}
 </form>
 
 {% endblock %}

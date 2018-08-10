@@ -1,15 +1,15 @@
 {% extends 'base.html' %} {% block content %} 
 
     {% if low_score %}
-        <h1 class='title text-center'>Better Luck Next Time {{ username }}!</h1>
+        <h1 class='title text-center'>Better luck next time {{ username }}!</h1>
     {% else %}
-        <h1 class='title text-center'>Well Done {{ username }}!</h1>
+        <h1 class='title text-center'>Well done {{ username }}!</h1>
     {% endif %}
 
 <h2>You scored {{ user_score }} out of {{ total_questions }}</h2>
 
 <form method='POST'>
-    <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again?</button>
+    <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again</button>
     <button type='submit' class="btn btn-danger" name="result_btn" value='exit'>Exit</button>
 </form>
 {% endblock %}
