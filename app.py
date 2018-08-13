@@ -1,17 +1,10 @@
 import os, random, json
+from questions import questions
 from flask import Flask, redirect, render_template, request, session, url_for, flash
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-
-
-
-questions = {
-    1: {"question": "What is 2 + 2?", "answer": "4"},
-    2: {"question": "What is 3 + 3?", "answer": "6"},
-    3: {"question": "What colour is grass?", "answer": "green"},
-    4: {"question": "What is the capital of France?", "answer": "paris"}
-    }
 
 def check_answer(answer):
     if session["guess_num"] < 1:
@@ -30,7 +23,7 @@ def check_answer(answer):
             
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #remove session in case same user is returning
+    #remove session incase same user is returning
     for key in session.keys():
      session.pop(key)
     if request.method == 'POST':
@@ -57,6 +50,8 @@ def quiz():
         
     if session["current_question"] > len(questions): 
         #finished quiz
+        #write score to leaderboard
+        
         return redirect(url_for('result'))
 
     return render_template('quiz.html',
@@ -88,15 +83,14 @@ def result():
         
 @app.route('/leaderboard', methods=['GET'])    
 def leaderboard():
-
     score_data = []
     with open('data/leaderboard.json') as f:
-        
         score_data = json.load(f)
+        score_data = sorted(score_data, key=lambda k: k['score'], reverse=True)
     return render_template('leaderboard.html',
     leaderboard=score_data)
         
-    
+#sort json data https://stackoverflow.com/questions/26924812/python-sort-list-of-json-by-value    
         
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)         
 
