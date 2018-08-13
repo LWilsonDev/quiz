@@ -1,8 +1,10 @@
-import os, random
+import os, random, json
 from flask import Flask, redirect, render_template, request, session, url_for, flash
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+
 
 questions = {
     1: {"question": "What is 2 + 2?", "answer": "4"},
@@ -84,6 +86,17 @@ def result():
         total_questions=len(questions),
         user_score=session['correct_answer_count'])   
         
+@app.route('/leaderboard', methods=['GET'])    
+def leaderboard():
+
+    score_data = []
+    with open('data/leaderboard.json') as f:
+        
+        score_data = json.load(f)
+    return render_template('leaderboard.html',
+    leaderboard=score_data)
+        
+    
         
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)         
 

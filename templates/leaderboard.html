@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %} 
+
+    <h1>Leaderboard</h1>
+  <ul>
+      
+  {% for user in leaderboard %}
+    <div>
+    <h3>{{ user.name }}: {{ user.score }}</h3>
+    </div>
+    {% endfor %}
+  
+  
+  </ul>
+
+<form method='POST'>
+    <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again</button>
+    <button type='submit' class="btn btn-danger" name="result_btn" value='exit'>Exit</button>
+</form>
+{% endblock %}
