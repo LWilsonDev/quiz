@@ -1,0 +1,5 @@
+sam: 2
+Lilly: 8
+Kat: 1
+Dag:1
+
