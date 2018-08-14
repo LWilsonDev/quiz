@@ -72,6 +72,8 @@ def result():
             return redirect(url_for('quiz'))
         elif request.form['result_btn'] == 'exit':
             return redirect(url_for('index'))
+        elif request.form['result_btn'] == 'leaderboard':
+            return redirect(url_for('leaderboard'))    
     else:    
         if session['correct_answer_count'] < len(questions)/2:
             low_score = True
@@ -90,7 +92,7 @@ def leaderboard():
       score_list=[]
       for line in data:
         score_list.append(line)
-      sorted_data = sorted(score_list, key=lambda item: int(item.rsplit(':',1)[-1].strip()), reverse=True)
+      sorted_data = sorted(score_list, key=lambda item: int(item.rsplit(': ')[-1].strip()), reverse=True)
     return render_template('leaderboard.html',
     sorted_data=sorted_data)
         
