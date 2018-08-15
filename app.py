@@ -14,21 +14,21 @@ def check_answer(answer):
         if answer == questions[session["current_question"]]["answer"]:
             session["correct_answer_count"] += 1
             session["guess_num"] = 0
-            flash(answer.capitalize() + " is correct! Please click next to continue")
+            flash(answer.capitalize() + " is correct!")
         else:
             flash("Incorrect! You have one more guess")
             session["guess_num"] += 1
     elif session["guess_num"] == 1:
-        flash("Incorrect! The correct answer was: " + questions[session["current_question"]]["answer"].capitalize() + " Please click next to continue")
+        flash("Incorrect! The correct answer was: " + questions[session["current_question"]]["answer"].capitalize())
         session["guess_num"] += 1
     else:    
-        flash("You are out of guesses! Please click next to continue")
+        flash("You are out of guesses!")
             
 @app.route('/', methods=['GET', 'POST'])
 def index():
     #remove session incase same user is returning
     for key in session.keys():
-     session.pop(key)
+        session.pop(key)
     if request.method == 'POST':
         session['username'] = request.form['username'].capitalize()
         return redirect(url_for('quiz'))
@@ -88,22 +88,17 @@ def result():
 @app.route('/leaderboard', methods=['GET'])    
 def leaderboard():
     with open('data/leaderboard.txt', 'r') as f:
-      data=f.readlines()
-      score_list=[]
-      for line in data:
+        data=f.readlines()
+        score_list=[]
+    for line in data:
         score_list.append(line)
-      sorted_data = sorted(score_list, key=lambda item: int(item.rsplit(': ')[-1].strip()), reverse=True)
+        sorted_data = sorted(score_list, key=lambda item: int(item.rsplit(': ')[-1].strip()), reverse=True)
     return render_template('leaderboard.html',
     sorted_data=sorted_data)
-        
-      
 
 #sort json data https://stackoverflow.com/questions/26924812/python-sort-list-of-json-by-value
 #https://stackoverflow.com/questions/32631581/python-how-do-i-sort-integers-in-a-text-file-into-ascending-and-or-descending-o
         
 app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)         
 
-#write test suite
-#styling
-#find questions
 

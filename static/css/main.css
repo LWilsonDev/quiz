@@ -2,3 +2,12 @@
     display: block;
 }
 
+img {
+    width: auto;
+    height: 300px;
+    margin: 50px auto;
+}
+
+.form_and_btns {
+    margin-bottom: 100px;
+}
