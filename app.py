@@ -10,17 +10,16 @@ def save_to_leaderboard(filename, data):
         file.writelines(data)
 
 def check_answer(answer):
-    if session["guess_num"] < 1:
-        if answer == questions[session["current_question"]]["answer"]:
-            session["correct_answer_count"] += 1
-            session["guess_num"] = 0
-            flash(answer.capitalize() + " is correct!")
-        else:
-            flash("Incorrect! You have one more guess")
-            session["guess_num"] += 1
+    if answer == questions[session["current_question"]]["answer"]:
+        session["correct_answer_count"] += 1
+        session["guess_num"] = 2
+        flash(answer.capitalize() + " is correct!")
+    elif session["guess_num"] == 2:
+        flash("Incorrect! You have one more guess")
+        session["guess_num"] -= 1
     elif session["guess_num"] == 1:
         flash("Incorrect! The correct answer was: " + questions[session["current_question"]]["answer"].capitalize())
-        session["guess_num"] += 1
+        session["guess_num"] -= 1
     else:    
         flash("You are out of guesses!")
             
@@ -40,14 +39,14 @@ def quiz():
     #start of game - set up first question
         session["current_question"] = 1
         session["correct_answer_count"] = 0
-        session["guess_num"] = 0
+        session["guess_num"] = 2
     if request.method == "POST":
         if request.form['submit_btn'] == 'submit':
             selected_answer = str(request.form['user_answer']).lower()
             check_answer(selected_answer)
         if request.form['submit_btn'] == 'next':
             session["current_question"] += 1
-            session["guess_num"] = 0
+            session["guess_num"] = 2
             return redirect(url_for('quiz'))
         #if user clicks next then session current question +1 and redirect for quiz    
     if session["current_question"] > len(questions): 
@@ -57,10 +56,10 @@ def quiz():
           '{0}: {1}\n'.format(session['username'], session['correct_answer_count']))
         return redirect(url_for('result'))
     return render_template('quiz.html',
-    username=session['username'], 
     question_number=session["current_question"], 
     question=questions[session["current_question"]]['question'],
-    image=questions[session["current_question"]]['image']
+    image=questions[session["current_question"]]['image'],
+    guess_count=session['guess_num']
     )
     
 @app.route('/result', methods=['GET', 'POST']) 

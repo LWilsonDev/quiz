@@ -1,19 +1,22 @@
-{% extends 'base.html' %} {% block content %} 
-
-    <h1>Leaderboard</h1>
-  <ul>
-      
-  {% for item in sorted_data %}
-    <div>
-    <h3>{{ item }}</h3>
+{% extends 'base.html' %} {% block content %}
+<div class='container-fluid maple-bg'>
+    <div class="jumbotron text-center intro-container">
+        <div class='intro-content'>
+            <h1 class="display-6 title">Leaderboard</h1>
+            <div class='text-center'>
+            <ul class="p-0">
+                {% for item in sorted_data %}
+                    <li class="leaders display-8">{{ item }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+            <hr>
+            <form method='POST'>
+                <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again</button>
+                <button type='submit' class="btn btn-danger" name="result_btn" value='exit'>Exit</button>
+            </form>
+        </div>
     </div>
-    {% endfor %}
-  
-  
-  </ul>
+</div>
 
-<form method='POST'>
-    <button type='submit' class="btn btn-success" name="result_btn" value='again'>Try Again</button>
-    <button type='submit' class="btn btn-danger" name="result_btn" value='exit'>Exit</button>
-</form>
 {% endblock %}

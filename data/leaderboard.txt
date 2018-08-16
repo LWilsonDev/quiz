@@ -3,6 +3,3 @@ Lilly: 8
 Kat: 1
 Dag: 1
 Dave: 4
-Wilma: 0
-Pansy: 3
-Pat: 4
