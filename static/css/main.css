@@ -58,12 +58,6 @@ hr {
     justify-content: center;
 }
 
-@media (min-width: 768px) {
-    .intro-container {
-        max-width: 60vw;
-    }
-}
-
 .intro-content {
     padding: 10px;
 }
@@ -93,4 +87,32 @@ hr {
     list-style-type: none;
     font-size: 1.2em;
     line-height: 1.8;
+}
+
+
+.bg-image {
+    height: 25vh;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0;
+}   
+
+.submit-btn {
+    margin-top: 20px;
+}
+
+  /*==========Media Queries===========*/
+
+@media (min-width: 768px) {
+    .intro-container {
+        max-width: 60vw;
+    }
+    
+    .bg-image {
+        height: 40vh;
+    }
+    
+    
 }
