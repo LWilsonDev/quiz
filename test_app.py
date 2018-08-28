@@ -4,6 +4,16 @@ from questions import questions
 from app import *
 
 
+# Possible features to test:
+
+# Question matches answer
+# If answer is correct, count goes up
+# If incorrect, guess count goes up 
+# If incorrect again, message shows, count doesnt go up, no more answers can be submitted
+# current question count can't be more than len(questions)
+# incorrect answers don't increase the correct answer count
+# low score  = true if score < len(questions)/2, false if >= len(questions)/2
+
 
 class TestQuestions(unittest.TestCase):
     '''
@@ -11,6 +21,9 @@ class TestQuestions(unittest.TestCase):
     '''
     def test_first_question(self):
         self.assertEquals(session['current_question'], 1)
+    
+    
+    
     
     
 

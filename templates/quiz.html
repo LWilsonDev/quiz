@@ -4,7 +4,7 @@
     <div class="col container-fluid bg-image" style="background-image: url({{ image }});">
     </div>
   </div>
-  <div class= 'row'>
+  <div class='row'>
     <div class='col'>
       <div class='container quiz-content text-center'>
         <h2>Question: {{ question_number }}</h2>
@@ -13,17 +13,17 @@
         <div class='form_and_btns'>
           <form method='POST'>
             <input type='text' name='user_answer'>
-            <button class='btn btn-success submit-btn' type='submit' name="submit_btn" value='submit'>Submit</button>
-            
+            <button class='btn btn-success submit-btn' type='submit' name="submit_btn" value='submit'>Submit</button> 
             {% with messages = get_flashed_messages() %} 
-            {% if messages %} {% for message in messages %}
+              {% if messages %} 
+                {% for message in messages %}
             <div class="flash alert alert-primary" role="alert">
               <h3>{{ message }}</h3>
             </div>
             <h4>Click 'Next' to continue</h4>
             <button class='btn btn-primary' type='submit' name="submit_btn" value='next'>Next</button> 
-            {% endfor %} 
-            {% endif %} 
+                {% endfor %} 
+              {% endif %} 
             {% endwith %}
           </form>
         </div>

@@ -29,7 +29,7 @@ def index():
     for key in session.keys():
         session.pop(key)
     if request.method == 'POST':
-        session['username'] = request.form['username'].capitalize()
+        session['username'] = request.form['username']
         return redirect(url_for('quiz'))
     return render_template('index.html')
 

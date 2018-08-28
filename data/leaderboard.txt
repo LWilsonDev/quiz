@@ -1,5 +1,7 @@
 sam: 2
-Lilly: 8
+Lilly: 3
 Kat: 1
 Dag: 1
 Dave: 4
+Rachel: 5
+Jim: 5
